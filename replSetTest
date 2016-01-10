@@ -1,0 +1,26 @@
+We will start three mongod processes (Mongo server instances) on our localhost. Then, we will create three data directories, /data/n1, /data/n2, and /data/n3, for node 1, node 2, and node 3, respectively. Similarly, we will redirect the logs to /logs/n1.log, /logs/n2.log, and /logs/n3.log
+
+
+1. Create the /data/n1, /data/n2, and /data/n3 directories, /logs for data, and logs of the three nodes. On the Windows platform, you can choose the c:\data\n1, c:\data\n2, c:\data\n3, or c:\logs\ directory (or any other directory of your choice) for data and logs, respectively. Ensure that these directories have appropriate write permissions for the Mongo server to write the data and logs.
+2. Start the three servers as follows (note that users on the Windows platform need to skip the --fork option, as it is not supported):
+   $ mongod --replSet repSetTest --dbpath /data/n1 --logpath /logs/n1.log --port 27000 --smallfiles --oplogSize 128 --fork
+   $ mongod --replSet repSetTest --dbpath /data/n2 --logpath /logs/n2.log --port 27001 --smallfiles --oplogSize 128 --fork
+   $ mongod --replSet repSetTest --dbpath /data/n3 --logpath /logs/n3.log --port 27002 --smallfiles --oplogSize 128 --fork
+3. Start the Mongo shell and connect to any of the Mongo servers that are running. In this case, we will connect to the first one (the one listening to port 27000). Execute the following command:
+   $ mongo localhost:27000
+4. Try to execute an insert operation from the Mongo shell after connecting to it as follows:
+> db.person.insert({name:'Dileep', age:23})
+This operation should fail as the replica set is not initialized yet.
+
+5. The next step is to start configuring the replica set. We will start by preparing a JSON configuration in the shell:
+cfg = {
+   '_id':'repSetTest',
+  'members':[
+       {'_id':0, 'host': 'localhost:27000'},
+       {'_id':1, 'host': 'localhost:27001'},
+       {'_id':2, 'host': 'localhost:27002'}
+   ]
+}
+6. The last step is to initiate the replica set with the preceding configuration as follows:
+   > rs.initiate(cfg)
+Execute rs.status() after a few seconds on the shell to see the status. In a few seconds, one of them should become primary, and the remaining two should become secondary.
