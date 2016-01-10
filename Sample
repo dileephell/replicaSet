@@ -1,0 +1,49 @@
+> rs.initiate(cfg)
+{ "ok" : 1 }
+repSetTest:OTHER> rs.status()
+{
+        "set" : "repSetTest",
+        "date" : ISODate("2016-01-10T13:27:03.118Z"),
+        "myState" : 1,
+        "members" : [
+                {
+                        "_id" : 0,
+                        "name" : "localhost:27000",
+                        "health" : 1,
+                        "state" : 1,
+                        "stateStr" : "PRIMARY",
+                        "uptime" : 255,
+                        "optime" : Timestamp(1452432417, 1),
+                        "optimeDate" : ISODate("2016-01-10T13:26:57Z"),
+                        "electionTime" : Timestamp(1452432417, 2),
+                        "electionDate" : ISODate("2016-01-10T13:26:57Z"),
+                        "configVersion" : 1,
+                        "self" : true
+                }
+        ],
+        "ok" : 1
+}
+repSetTest:PRIMARY> rs.status()
+{
+        "set" : "repSetTest",
+        "date" : ISODate("2016-01-10T13:47:18.729Z"),
+        "myState" : 1,
+        "members" : [
+                {
+                        "_id" : 0,
+                        "name" : "localhost:27000",
+                        "health" : 1,
+                        "state" : 1,
+                        "stateStr" : "PRIMARY",
+                        "uptime" : 1470,
+                        "optime" : Timestamp(1452432417, 1),
+                        "optimeDate" : ISODate("2016-01-10T13:26:57Z"),
+                        "electionTime" : Timestamp(1452432417, 2),
+                        "electionDate" : ISODate("2016-01-10T13:26:57Z"),
+                        "configVersion" : 1,
+                        "self" : true
+                }
+        ],
+        "ok" : 1
+}
+repSetTest:PRIMARY>
